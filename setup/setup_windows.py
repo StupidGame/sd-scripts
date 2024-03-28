@@ -162,21 +162,17 @@ def main_menu(headless: bool = False):
         setup_common.clear_screen()
         while True:
             print("\nKohya_ss GUI setup menu:\n")
-            print("1. Install kohya_ss gui")
-            print("2. (Optional) Install cudnn files (if you want to use latest supported cudnn version)")
-            print("3. (Optional) Install specific bitsandbytes versions")
-            print("4. (Optional) Manually configure accelerate")
-            print("5. (Optional) Start Kohya_ss GUI in browser")
-            print("6. Quit")
+            print("1. (Optional) Install cudnn files (if you want to use latest supported cudnn version)")
+            print("2. (Optional) Install specific bitsandbytes versions")
+            print("3. (Optional) Manually configure accelerate")
+            print("4. Quit")
 
             choice = input("\nEnter your choice: ")
             print("")
 
             if choice == "1":
-                install_kohya_ss_torch2()
-            elif choice == "2":
                 cudnn_install()
-            elif choice == "3":
+            elif choice == "2":
                 while True:
                     print("1. (Optional) Force installation of bitsandbytes 0.35.0")
                     print(
@@ -216,13 +212,9 @@ def main_menu(headless: bool = False):
                         break
                     else:
                         print("Invalid choice. Please enter a number between 1-3.")
-            elif choice == "4":
+            elif choice == "3":
                 setup_common.run_cmd("accelerate config")
-            elif choice == "5":
-                subprocess.Popen(
-                    "start cmd /k .\gui.bat --inbrowser", shell=True
-                )  # /k keep the terminal open on quit. /c would close the terminal instead
-            elif choice == "6":
+            elif choice == "4":
                 print("Quitting the program.")
                 break
             else:

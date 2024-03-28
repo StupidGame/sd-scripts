@@ -266,40 +266,6 @@ configure_accelerate() {
 }
 
 # Function to update Kohya_SS repo
-update_kohya_ss() {
-  if [ "$SKIP_GIT_UPDATE" = false ]; then
-    if command -v git >/dev/null; then
-      # First, we make sure there are no changes that need to be made in git, so no work is lost.
-      if [ "$(git -C "$DIR" status --porcelain=v1 2>/dev/null | wc -l)" -gt 0 ] &&
-        echo "These files need to be committed or discarded: " >&4 &&
-        git -C "$DIR" status >&4; then
-        echo "There are changes that need to be committed or discarded in the repo in $DIR."
-        echo "Commit those changes or run this script with -n to skip git operations entirely."
-        exit 1
-      fi
-
-      echo "Attempting to clone $GIT_REPO."
-      if [ ! -d "$DIR/.git" ]; then
-        echo "Cloning and switching to $GIT_REPO:$BRANCH" >&4
-        git -C "$PARENT_DIR" clone -b "$BRANCH" "$GIT_REPO" "$(basename "$DIR")" >&3
-        git -C "$DIR" switch "$BRANCH" >&4
-      else
-        echo "git repo detected. Attempting to update repository instead."
-        echo "Updating: $GIT_REPO"
-        git -C "$DIR" pull "$GIT_REPO" "$BRANCH" >&3
-        if ! git -C "$DIR" switch "$BRANCH" >&4; then
-          echo "Branch $BRANCH did not exist. Creating it." >&4
-          git -C "$DIR" switch -c "$BRANCH" >&4
-        fi
-      fi
-    else
-      echo "You need to install git."
-      echo "Rerun this after installing git or run this script with -n to skip the git operations."
-    fi
-  else
-    echo "Skipping git operations."
-  fi
-}
 
 # Section: Command-line options parsing
 
@@ -439,7 +405,6 @@ if [[ "$OSTYPE" == "lin"* ]]; then
   fi
 
   check_storage_space
-  update_kohya_ss
 
   distro=get_distro_name
   family=get_distro_family
@@ -611,7 +576,6 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
     echo "Python Tkinter 3.10 found!"
   fi
 
-  update_kohya_ss
 
   if ! install_python_dependencies; then
     echo "You may need to install Python. The command for this is brew install python@3.10."
