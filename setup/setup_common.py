@@ -455,7 +455,7 @@ def install(
         global quick_allowed   # pylint: disable=global-statement
         quick_allowed = False
     if reinstall or not installed(package, friendly):
-        pip(f'install --upgrade --force-reinstall {package}', ignore=ignore, show_stdout=show_stdout)
+        pip(f'install --upgrade {package}', ignore=ignore, show_stdout=show_stdout)
 
 
 def process_requirements_line(line, show_stdout: bool = False):
