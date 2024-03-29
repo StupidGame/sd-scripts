@@ -331,9 +331,9 @@ def pip(arg: str, ignore: bool = False, quiet: bool = False, show_stdout: bool =
         log.info(f'Installing package: {arg.replace("install", "").replace("--upgrade", "").replace("--no-deps", "").replace("--force", "").replace("  ", " ").strip()}')
     log.debug(f"Running pip: {arg}")
     if show_stdout:
-        subprocess.run(f'"{sys.executable}" -m pip --upgrade --force-reinstall {arg}', shell=True, check=False, env=os.environ)
+        subprocess.run(f'pip --upgrade --force-reinstall {arg}', shell=True, check=False, env=os.environ)
     else:
-        result = subprocess.run(f'"{sys.executable}" -m pip --upgrade --force-reinstall {arg}', shell=True, check=False, env=os.environ, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        result = subprocess.run(f'pip --upgrade --force-reinstall {arg}', shell=True, check=False, env=os.environ, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         txt = result.stdout.decode(encoding="utf8", errors="ignore")
         if len(result.stderr) > 0:
             txt += ('\n' if len(txt) > 0 else '') + result.stderr.decode(encoding="utf8", errors="ignore")
